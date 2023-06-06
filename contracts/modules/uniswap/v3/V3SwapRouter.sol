@@ -159,19 +159,14 @@ abstract contract V3SwapRouter is RouterImmutables, Permit2Payments, IUniswapV3S
 
     function computePoolAddress(address tokenA, address tokenB, uint24 fee) private view returns (address pool) {
         if (tokenA > tokenB) (tokenA, tokenB) = (tokenB, tokenA);
-        pool = address(
-            uint160(
-                uint256(
-                    keccak256(
-                        abi.encodePacked(
-                            hex'ff',
-                            UNISWAP_V3_FACTORY,
-                            keccak256(abi.encode(tokenA, tokenB, fee)),
-                            UNISWAP_V3_POOL_INIT_CODE_HASH
-                        )
-                    )
-                )
-            )
+
+        (bool success, bytes memory addressBytes) = UNISWAP_V3_FACTORY.staticcall(
+            abi.encodeWithSelector(
+                bytes4(keccak256("getPool(address,address,uint24)")), tokenA, tokenB, fee)
         );
+
+        require(success);
+        pool = abi.decode(addressBytes, (address));
+        require(pool != address(0));
     }
 }
