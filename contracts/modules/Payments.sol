@@ -4,6 +4,8 @@ pragma solidity ^0.8.17;
 import {Constants} from '../libraries/Constants.sol';
 import {RouterImmutables} from '../base/RouterImmutables.sol';
 import {SafeTransferLib} from 'solmate/src/utils/SafeTransferLib.sol';
+import {SafeERC20} from '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
+import {IERC20} from '@openzeppelin/contracts/interfaces/IERC20.sol';
 import {ERC20} from 'solmate/src/tokens/ERC20.sol';
 import {ERC721} from 'solmate/src/tokens/ERC721.sol';
 import {ERC1155} from 'solmate/src/tokens/ERC1155.sol';
@@ -11,7 +13,6 @@ import {ERC1155} from 'solmate/src/tokens/ERC1155.sol';
 /// @title Payments contract
 /// @notice Performs various operations around the payment of ETH and tokens
 abstract contract Payments is RouterImmutables {
-    using SafeTransferLib for ERC20;
     using SafeTransferLib for address;
 
     error InsufficientToken();
@@ -32,8 +33,7 @@ abstract contract Payments is RouterImmutables {
             if (value == Constants.CONTRACT_BALANCE) {
                 value = ERC20(token).balanceOf(address(this));
             }
-
-            ERC20(token).safeTransfer(recipient, value);
+            SafeERC20.safeTransfer(IERC20(token), recipient, value);
         }
     }
 
@@ -49,7 +49,7 @@ abstract contract Payments is RouterImmutables {
         else revert InvalidSpender();
 
         // set approval
-        token.safeApprove(spenderAddress, type(uint256).max);
+        SafeERC20.forceApprove(IERC20(address(token)), spenderAddress, type(uint256).max);
     }
 
     /// @notice Pays a proportion of the contract's ETH or ERC20 to a recipient
@@ -65,7 +65,7 @@ abstract contract Payments is RouterImmutables {
         } else {
             uint256 balance = ERC20(token).balanceOf(address(this));
             uint256 amount = (balance * bips) / FEE_BIPS_BASE;
-            ERC20(token).safeTransfer(recipient, amount);
+            SafeERC20.safeTransfer(IERC20(token), recipient, amount);
         }
     }
 
@@ -82,7 +82,8 @@ abstract contract Payments is RouterImmutables {
         } else {
             balance = ERC20(token).balanceOf(address(this));
             if (balance < amountMinimum) revert InsufficientToken();
-            if (balance > 0) ERC20(token).safeTransfer(recipient, balance);
+            if (balance > 0) SafeERC20.safeTransfer(IERC20(token), recipient, balance);
+
         }
     }
 
