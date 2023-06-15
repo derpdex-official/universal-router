@@ -7,7 +7,7 @@ To see the commit of the smart contracts that was used in the latest deployment,
 ## Address
 | Network | Address |
 | --- | --- |
-| Zksync Goerli | [0xb4630FaB40f456FCdf4B9720950E957BA88f2eCC](https://goerli.explorer.zksync.io/address/0xb4630FaB40f456FCdf4B9720950E957BA88f2eCC) |
+| Zksync Goerli | [0xA755E7D93cc20274e79d0DB7A122ed04284cC706](https://goerli.explorer.zksync.io/address/0xA755E7D93cc20274e79d0DB7A122ed04284cC706) |
 ## High-Level Overview
 
 The Universal Router is a ERC20 and NFT swap router that allows users greater flexibility when performing trades across multiple token types.
