@@ -2,8 +2,15 @@ import { utils, Wallet, Provider } from "zksync-web3";
 import * as ethers from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { Deployer } from "@matterlabs/hardhat-zksync-deploy";
+import addresses from "../addresses";
 
 export default async function (hre: HardhatRuntimeEnvironment) {
+    //@ts-ignore
+    const allAddresses = addresses[process.env.NODE_ENV || "local"]
+    const factoryAddress = allAddresses.V3_FACTORY
+    const WETHAddress = allAddresses.WETH
+    const permit2 = allAddresses.PERMIT2
+
     let pk_testnet = process.env.pk || ""
 
     const provider = Provider.getDefaultProvider();
@@ -22,19 +29,17 @@ export default async function (hre: HardhatRuntimeEnvironment) {
     // await depositHandle.wait();
 
     const artifact = await deployer.loadArtifact("UniversalRouter");
-    // const unSupportedArtifact = await deployer.loadArtifact("UnsupportedProtocol");
-    // console.log("deploying unsupported protocol")
-    // let unsupported = await deployer.deploy(unSupportedArtifact, [])
-    // console.log(`${unSupportedArtifact.contractName} was deployed to ${unsupported.address}`);
-    let unsupported = {
-        address: "0xBeb5535Df14A6Fe9EB428f041AcD617f4157f910"
-    }
+    const unSupportedArtifact = await deployer.loadArtifact("UnsupportedProtocol");
+    console.log("deploying unsupported protocol")
+    let unsupported = await deployer.deploy(unSupportedArtifact, [])
+    console.log(`${unSupportedArtifact.contractName} was deployed to ${unsupported.address}`);
+
 
     console.log("Deploying contract...");
 
     let factoryContract = await deployer.deploy(artifact, [{
-        permit2: "0x7dBaee32F615b50B318A8650eE23214768d25b34",
-        weth9: "0x5672B500550E9916C9967E18F67915407D70C62e",
+        permit2,
+        weth9: WETHAddress,
         seaportV1_5: unsupported.address,
         seaportV1_4: unsupported.address,
         openseaConduit: unsupported.address,
@@ -50,14 +55,15 @@ export default async function (hre: HardhatRuntimeEnvironment) {
         looksRareRewardsDistributor: unsupported.address,
         looksRareToken: unsupported.address,
         v2Factory: unsupported.address,
-        v3Factory: "0x72B37018BfD6F78c7c7509Bf77f8D1d4bd206dBD",
+        // v3Factory: factoryAddress,
+        v3Factory: factoryAddress,
         pairInitCodeHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
         poolInitCodeHash: "0x010011b5a863aee85f9ffb9ff5152cfcd202f5f5ce21f1aeb7c57d30537ffb28",
     }]);
 
     let constructorArgsEncoded = factoryContract.interface.encodeDeploy([{
-        permit2: "0x7dBaee32F615b50B318A8650eE23214768d25b34",
-        weth9: "0x5672B500550E9916C9967E18F67915407D70C62e",
+        permit2,
+        weth9: WETHAddress,
         seaportV1_5: unsupported.address,
         seaportV1_4: unsupported.address,
         openseaConduit: unsupported.address,
@@ -73,7 +79,8 @@ export default async function (hre: HardhatRuntimeEnvironment) {
         looksRareRewardsDistributor: unsupported.address,
         looksRareToken: unsupported.address,
         v2Factory: unsupported.address,
-        v3Factory: "0x72B37018BfD6F78c7c7509Bf77f8D1d4bd206dBD",
+        // v3Factory: factoryAddress,
+        v3Factory: factoryAddress,
         pairInitCodeHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
         poolInitCodeHash: "0x010011b5a863aee85f9ffb9ff5152cfcd202f5f5ce21f1aeb7c57d30537ffb28",
     }])
@@ -89,8 +96,8 @@ export default async function (hre: HardhatRuntimeEnvironment) {
         // address: "0xB39Eca7aaaccF0D769B604b060Af523D7A349aF7",
         // contract: "UniversalRouter",
         constructorArguments: [{
-            permit2: "0x7dBaee32F615b50B318A8650eE23214768d25b34",
-            weth9: "0x5672B500550E9916C9967E18F67915407D70C62e",
+            permit2,
+            weth9: WETHAddress,
             seaportV1_5: unsupported.address,
             seaportV1_4: unsupported.address,
             openseaConduit: unsupported.address,
@@ -106,7 +113,8 @@ export default async function (hre: HardhatRuntimeEnvironment) {
             looksRareRewardsDistributor: unsupported.address,
             looksRareToken: unsupported.address,
             v2Factory: unsupported.address,
-            v3Factory: "0x72B37018BfD6F78c7c7509Bf77f8D1d4bd206dBD",
+            // v3Factory: factoryAddress,
+            v3Factory: factoryAddress,
             pairInitCodeHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
             poolInitCodeHash: "0x010011b5a863aee85f9ffb9ff5152cfcd202f5f5ce21f1aeb7c57d30537ffb28",
         }]

@@ -212,26 +212,24 @@ yarn test:gas
 
 ### To Deploy
 
-Fill out parameters in `script/deployParameters/Deploy<network>.s.sol`
+Update the addresses in `addresses/index.ts`
 
 ```console
-forge script --broadcast \
---rpc-url <RPC-URL> \
---private-key <PRIVATE_KEY> \
---sig 'run()' \
-script/Deploy<network>.s.sol:Deploy<network>
+export NODE_ENV=mainnet
+yarn hardhat compile && yarn hardhat deploy-zksync --script ./deploy/deployRouter.ts
 ```
 
-### To Deploy and Verify
 
-```console
-forge script --broadcast \
---rpc-url <RPC-URL> \
---private-key <PRIVATE-KEY> \
---sig 'run()' \
-script/Deploy<network>.s.sol:Deploy<network>
---etherscan-api-key <ETHERSCAN-API-KEY> \
---verify
+## Manual Verification
+The deploy scripts will verify the contracts. Following command can be used to manually verify the contracts.
+
+``` sh
+$ yarn hardhat verify --network zkSyncNetwork CONTRACT_ADDRESS CONSTRUCTOR_PARAMS 
+```
+
+### To check verification Status
+``` sh
+$ yarn hardhat verify-status --verification-id VERIFICATION_ID
 ```
 
 #### To Deploy Permit2 Alongside UniversalRouter
