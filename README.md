@@ -216,7 +216,13 @@ Update the addresses in `addresses/index.ts`
 
 ```console
 export NODE_ENV=mainnet
-yarn hardhat compile && yarn hardhat deploy-zksync --script ./deploy/deployRouter.ts
+yarn hardhat compile && yarn hardhat deploy-zksync --script ./deploy/01_deployPermit2.ts
+```
+
+After the address is updated to `address/index.ts`, Universal-Router can be deployed.
+```console
+export NODE_ENV=mainnet
+yarn hardhat compile && yarn hardhat deploy-zksync --script ./deploy/02_deployRouter.ts
 ```
 
 
