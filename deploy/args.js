@@ -1,7 +1,7 @@
-const addresses = require('../addresses')
+const addresses = require('../addresses').default
 require('dotenv').config()
 
-module.exports = [
+const params = [
     {
         permit2: addresses[process.env.NODE_ENV].PERMIT2,
         weth9: addresses[process.env.NODE_ENV].WETH,
@@ -25,3 +25,6 @@ module.exports = [
         poolInitCodeHash: "0x010011b5a863aee85f9ffb9ff5152cfcd202f5f5ce21f1aeb7c57d30537ffb28",
     }
 ]
+
+console.log('params', params);
+module.exports = params;

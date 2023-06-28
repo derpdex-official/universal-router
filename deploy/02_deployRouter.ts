@@ -32,6 +32,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
     const unSupportedArtifact = await deployer.loadArtifact("UnsupportedProtocol");
     console.log("deploying unsupported protocol")
     let unsupported = await deployer.deploy(unSupportedArtifact, [])
+    await unsupported.deployTransaction.wait(15);
     console.log(`${unSupportedArtifact.contractName} was deployed to ${unsupported.address}`);
 
 
