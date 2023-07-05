@@ -8,7 +8,7 @@ To see the commit of the smart contracts that was used in the latest deployment,
 | Network | Address |
 | --- | --- |
 | Zksync Goerli | [0xA755E7D93cc20274e79d0DB7A122ed04284cC706](https://goerli.explorer.zksync.io/address/0xA755E7D93cc20274e79d0DB7A122ed04284cC706) |
-| ZkSync Era | [0x75d53B0E58E9adf4eEaDdE90A526AfE7a2eb83A5](https://explorer.zksync.io/address/0x75d53B0E58E9adf4eEaDdE90A526AfE7a2eb83A5)
+| ZkSync Era | [0xd896563806661Cf88697b15F13bB794D89870A36](https://explorer.zksync.io/address/0xd896563806661Cf88697b15F13bB794D89870A36)
 
 ## High-Level Overview
 
