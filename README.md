@@ -1,7 +1,7 @@
 # Universal Router
 
 ## Bug Bounty
-This repository is subject to the DerpDEX bug bounty program, per terms defined (here)[bug-bounty.md].
+This repository is subject to the DerpDEX bug bounty program, per terms defined [here](bug-bounty.md).
 
 ## Address
 | Network | Address |
