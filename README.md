@@ -1,8 +1,7 @@
 # Universal Router
 
-Please read the [Contributions](https://github.com/Uniswap/universal-router#contributions) section before submitting a Pull Request.
+## Bug Bounty
 
-To see the commit of the smart contracts that was used in the latest deployment, see branch `deployed-commit`. To see the addresses of this latest deployment on each network, see folder `deploy-addresses`.
 
 ## Address
 | Network | Address |
